@@ -16,17 +16,17 @@ public class ConsoleMenu {
 
     private Order currentOrder;
 
-    public void start(){
+    public void start() {
         AppConfig config = AppConfig.getInstance();
         System.out.println("Welcome to " + config.getApplicationName());
 
         boolean running = true;
-        while(running){
+        while (running) {
             printMenu();
 
             int option = Integer.parseInt(scanner.nextLine());
 
-            switch (option){
+            switch (option) {
                 case 1 -> createOrder();
                 case 2 -> addItem();
                 case 3 -> viewOrder();
@@ -37,7 +37,7 @@ public class ConsoleMenu {
         }
     }
 
-    private void createOrder(){
+    private void createOrder() {
         System.out.println("Customer name:");
         String customerName = scanner.nextLine();
 
@@ -47,8 +47,9 @@ public class ConsoleMenu {
         System.out.println("Order created for " + customerName);
     }
 
-    private void addItem(){
+    private void addItem() {
         // TODO: check if order exists
+        if (orderExists()) return;
 
         System.out.println("Item name:");
         String itemName = scanner.nextLine();
@@ -63,22 +64,32 @@ public class ConsoleMenu {
         System.out.println("Item added to order");
     }
 
-    private void viewOrder(){
+    private boolean orderExists() {
+        if (currentOrder == null) {
+            System.out.println("No order exists. Please create an order first.");
+            return true;
+        }
+        return false;
+    }
+
+    private void viewOrder() {
         // TODO: check if order exists
+        if (orderExists()) return;
 
         System.out.println("Customer: " + currentOrder.getCustomerName());
-        System.out.println("Status: " +  currentOrder.getStatus());
+        System.out.println("Status: " + currentOrder.getStatus());
         System.out.println("Items:");
 
-        for (OrderItem item : currentOrder.getItems()){
+        for (OrderItem item : currentOrder.getItems()) {
             System.out.println("- " + item);
         }
 
         System.out.println("Total: " + currentOrder.calculateTotal());
     }
 
-    private void payOrder(){
+    private void payOrder() {
         // TODO: check if order exists
+        if (orderExists()) return;
 
         System.out.println("""
                 Select payment method:
@@ -88,7 +99,7 @@ public class ConsoleMenu {
                 """);
         int option = Integer.parseInt(scanner.nextLine());
 
-        PaymentMethod paymentMethod = switch(option){
+        PaymentMethod paymentMethod = switch (option) {
             case 1 -> createCreditCardPayment();
             case 2 -> createPaypalPayment();
             case 3 -> createGiftCardPayment();
@@ -99,27 +110,33 @@ public class ConsoleMenu {
         System.out.println(result.getMessage());
     }
 
-    private PaymentMethod createCreditCardPayment(){
+    private PaymentMethod createCreditCardPayment() {
         System.out.println("Card number:");
-        String cardNumber =  scanner.nextLine();
+        String cardNumber = scanner.nextLine();
 
         System.out.println("Card holder name:");
-        String cardHolderName =  scanner.nextLine();
+        String cardHolderName = scanner.nextLine();
 
-        return PaymentMethodFactory.createCreditCardPayment(cardNumber,cardHolderName);
+        return PaymentMethodFactory.createCreditCardPayment(cardNumber, cardHolderName);
     }
 
-    private  PaymentMethod createPaypalPayment(){
+    private PaymentMethod createPaypalPayment() {
         // TODO
-        return null;
+        System.out.println("PayPal email:");
+        String email = scanner.nextLine();
+        return PaymentMethodFactory.createPaypalPayment(email);
     }
 
-    private PaymentMethod createGiftCardPayment(){
+    private PaymentMethod createGiftCardPayment() {
         // TODO
-        return null;
+        System.out.println("Gift card code:");
+        String cardCode = scanner.nextLine();
+        System.out.println("Gift card balance:");
+        double balance = Double.parseDouble(scanner.nextLine());
+        return PaymentMethodFactory.createGiftCardPayment(cardCode, balance);
     }
 
-    private void printMenu(){
+    private void printMenu() {
         System.out.println("""
                 1. Create order
                 2. Add item to order
