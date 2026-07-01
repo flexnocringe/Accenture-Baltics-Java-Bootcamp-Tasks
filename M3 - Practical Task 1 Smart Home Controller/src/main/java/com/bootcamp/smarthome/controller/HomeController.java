@@ -1,6 +1,8 @@
 package com.bootcamp.smarthome.controller;
 
 import com.bootcamp.smarthome.device.Device;
+import com.bootcamp.smarthome.exceptions.DeviceNotFoundException;
+import com.bootcamp.smarthome.exceptions.DeviceOfflineException;
 import com.bootcamp.smarthome.exceptions.HomeAutomationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +60,7 @@ public class HomeController {
                 return devices[i];
             }
         }
-        return null;
+        throw new DeviceNotFoundException("No device found with id: " + deviceId);
     }
 
     // -------------------------------------------------------------------------
@@ -78,22 +80,13 @@ public class HomeController {
         String deviceId = CommandParser.extractDeviceId(fullCommand);
         String command = CommandParser.extractCommand(fullCommand);
         logger.debug("Command received: {}. For device {}", fullCommand, deviceId);
-
         try {
             Device device = findDevice(deviceId);
-
-            if (device == null) {
-                logger.warn("Device not found!");
-                return;
-            }
-
-            if (!device.isOnline()) {
-                logger.warn("The target device '{}' is offline - command skipped.", deviceId);
-                return;
-            }
-
+            device.isOnline();
             device.executeCommand(command);
             logger.info("Command executed successfully: {}", command);
+        } catch (DeviceNotFoundException | DeviceOfflineException e) {
+            logger.warn(e.getMessage());
         } catch (HomeAutomationException e) {
             throw new HomeAutomationException("Command '" + fullCommand + "' failed for device '" + deviceId + "'", e);
         } finally {

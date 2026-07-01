@@ -203,3 +203,25 @@
 2026-07-01 18:10:58 DEBUG c.b.s.controller.HomeController - Command received: SENSOR_99 TURN_ON. For device SENSOR_99
 2026-07-01 18:10:58 WARN  c.b.s.controller.HomeController - Device not found!
 2026-07-01 18:10:58 DEBUG c.b.s.controller.HomeController - Command processing ended for device [SENSOR_99].
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command received: LIGHT_01 TURN_ON. For device LIGHT_01
+2026-07-01 18:56:19 INFO  c.b.s.controller.HomeController - Command executed successfully: TURN_ON
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command processing ended for device [LIGHT_01].
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command received: LIGHT_02 TURN_ON. For device LIGHT_02
+2026-07-01 18:56:19 INFO  c.b.s.controller.HomeController - Command executed successfully: TURN_ON
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command processing ended for device [LIGHT_02].
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command received: THERMO_01 SET_TEMP 22.5. For device THERMO_01
+2026-07-01 18:56:19 INFO  c.b.s.controller.HomeController - Command executed successfully: SET_TEMP 22.5
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command processing ended for device [THERMO_01].
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command received: LIGHT_01 SET_BRIGHTNESS 80. For device LIGHT_01
+2026-07-01 18:56:19 INFO  c.b.s.controller.HomeController - Command executed successfully: SET_BRIGHTNESS 80
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command processing ended for device [LIGHT_01].
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command received: LIGHT_03 TURN_ON. For device LIGHT_03
+2026-07-01 18:56:19 WARN  c.b.s.controller.HomeController - Device LIGHT_03 is offline and cannot execute commands.
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command processing ended for device [LIGHT_03].
+2026-07-01 18:56:19 INFO  c.b.smarthome.device.SmartLock - Lock unlocked successfully! Device ID: LOCK_01
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command received: LOCK_02 UNLOCK. For device LOCK_02
+2026-07-01 18:56:19 ERROR c.b.smarthome.device.SmartLock - SECURITY ALERT: Incorrect PIN entered for Back Door Lock.
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command processing ended for device [LOCK_02].
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command received: SENSOR_99 TURN_ON. For device SENSOR_99
+2026-07-01 18:56:19 WARN  c.b.s.controller.HomeController - No device found with id: SENSOR_99
+2026-07-01 18:56:19 DEBUG c.b.s.controller.HomeController - Command processing ended for device [SENSOR_99].

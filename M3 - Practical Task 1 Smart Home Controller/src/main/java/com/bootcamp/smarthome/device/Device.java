@@ -1,5 +1,6 @@
 package com.bootcamp.smarthome.device;
 
+import com.bootcamp.smarthome.exceptions.DeviceOfflineException;
 import com.bootcamp.smarthome.exceptions.InvalidCommandException;
 
 /**
@@ -67,7 +68,10 @@ public abstract class Device {
         return name;
     }
 
-    public boolean isOnline() {
+    public boolean isOnline() throws DeviceOfflineException {
+        if (!isOnline) {
+            throw new DeviceOfflineException("Device " + deviceId + " is offline and cannot execute commands.");
+        }
         return isOnline;
     }
 

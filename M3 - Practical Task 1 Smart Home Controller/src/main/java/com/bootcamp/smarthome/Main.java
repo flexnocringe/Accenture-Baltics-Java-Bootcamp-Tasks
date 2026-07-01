@@ -46,7 +46,7 @@ public class Main {
             Device found = controller.findDevice("THERMO_01");
             SmartThermostat mainThermostat = (SmartThermostat) found;
             mainThermostat.setTemperature(99.0);
-        } catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
 
