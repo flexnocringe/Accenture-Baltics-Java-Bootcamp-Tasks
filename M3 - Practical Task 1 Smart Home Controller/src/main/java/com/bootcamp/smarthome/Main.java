@@ -5,28 +5,29 @@ import com.bootcamp.smarthome.device.Device;
 import com.bootcamp.smarthome.device.SmartLight;
 import com.bootcamp.smarthome.device.SmartLock;
 import com.bootcamp.smarthome.device.SmartThermostat;
+import com.bootcamp.smarthome.exceptions.HomeAutomationException;
 
 /**
  * Entry point for the Smart Home Controller demo.
- *
+ * <p>
  * Registers several smart devices, then runs a series of scenarios that
  * exercise normal operation as well as edge cases and error conditions.
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws HomeAutomationException {
 
         HomeController controller = new HomeController();
 
         System.out.println("=== Setting up devices ===");
-        controller.addDevice(new SmartLight("LIGHT_01",   "Living Room Light",  true));
-        controller.addDevice(new SmartLight("LIGHT_02",   "Bedroom Light",      true));
+        controller.addDevice(new SmartLight("LIGHT_01", "Living Room Light", true));
+        controller.addDevice(new SmartLight("LIGHT_02", "Bedroom Light", true));
         controller.addDevice(new SmartThermostat("THERMO_01", "Main Thermostat", true));
-        controller.addDevice(new SmartLock("LOCK_01",    "Front Door Lock",    true,  "4321"));
-        controller.addDevice(new SmartLight("LIGHT_03",   "Kitchen Light",      false)); // offline
+        controller.addDevice(new SmartLock("LOCK_01", "Front Door Lock", true, "4321"));
+        controller.addDevice(new SmartLight("LIGHT_03", "Kitchen Light", false)); // offline
         controller.addDevice(new SmartThermostat("THERMO_02", "Bedroom Thermostat", true));
-        controller.addDevice(new SmartLight("LIGHT_04",   "Hallway Light",      true));
-        controller.addDevice(new SmartLock("LOCK_02",    "Back Door Lock",     true,  "9999"));
+        controller.addDevice(new SmartLight("LIGHT_04", "Hallway Light", true));
+        controller.addDevice(new SmartLock("LOCK_02", "Back Door Lock", true, "9999"));
         // Array is now FULL (8/8 devices)
 
         controller.printAllDevices();
@@ -40,10 +41,15 @@ public class Main {
         controller.sendCommand("LIGHT_01 SET_BRIGHTNESS 80");
 
         System.out.println("\n=== Scenario 3: Invalid temperature ===");
-        // This test calls setTemperature() directly to isolate temperature validation.
-        Device found = controller.findDevice("THERMO_01");
-        SmartThermostat mainThermostat = (SmartThermostat) found;
-        mainThermostat.setTemperature(99.0);
+        try {
+            // This test calls setTemperature() directly to isolate temperature validation.
+            Device found = controller.findDevice("THERMO_01");
+            SmartThermostat mainThermostat = (SmartThermostat) found;
+            mainThermostat.setTemperature(99.0);
+        } catch(RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+
 
         System.out.println("\n=== Scenario 4: Offline device ===");
         // LIGHT_03 is offline — command should be skipped with a warning
@@ -57,7 +63,11 @@ public class Main {
         frontDoor.validatePin("4321"); // should print "Front Door Lock unlocked successfully."
 
         System.out.println("\n=== Scenario 6: Unlock with null PIN ===");
-        controller.sendCommand("LOCK_02 UNLOCK");
+        try {
+            controller.sendCommand("LOCK_02 UNLOCK");
+        } catch (HomeAutomationException e) {
+            System.out.println(e.getMessage());
+        }
 
         System.out.println("\n=== Scenario 7: Find non-existent device ===");
         controller.sendCommand("SENSOR_99 TURN_ON");

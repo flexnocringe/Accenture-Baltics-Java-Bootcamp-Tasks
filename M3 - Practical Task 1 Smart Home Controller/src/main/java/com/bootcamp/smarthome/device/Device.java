@@ -1,12 +1,14 @@
 package com.bootcamp.smarthome.device;
 
+import com.bootcamp.smarthome.exceptions.InvalidCommandException;
+
 /**
  * Abstract base class representing a smart home device.
- *
+ * <p>
  * Every device has a unique ID, a display name, an online/offline status,
  * and an on/off power state. Concrete subclasses define device-specific
  * behaviour by implementing {@link #executeCommand(String)}.
- *
+ * <p>
  * Prior knowledge required: abstract classes, encapsulation, inheritance.
  */
 public abstract class Device {
@@ -30,14 +32,14 @@ public abstract class Device {
     /**
      * Executes a command string on this device.
      * The format and valid values depend on the concrete device type.
-     *
+     * <p>
      * Examples:
-     *   "TURN_ON"
-     *   "SET_BRIGHTNESS 75"
-     *   "SET_TEMP 22.5"
-     *   "UNLOCK 1234"
+     * "TURN_ON"
+     * "SET_BRIGHTNESS 75"
+     * "SET_TEMP 22.5"
+     * "UNLOCK 1234"
      */
-    public abstract void executeCommand(String command);
+    public abstract void executeCommand(String command) throws InvalidCommandException;
 
     // -------------------------------------------------------------------------
     // Shared behaviour

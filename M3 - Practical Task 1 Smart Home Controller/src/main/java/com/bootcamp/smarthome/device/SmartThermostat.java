@@ -1,14 +1,18 @@
 package com.bootcamp.smarthome.device;
 
+import com.bootcamp.smarthome.exceptions.InvalidValueException;
+
 /**
  * A programmable smart thermostat.
- *
+ * <p>
  * Controls the target temperature in Celsius.
  * The valid operating range is 10.0 °C to 35.0 °C (inclusive).
  */
 public class SmartThermostat extends Device {
 
-    /** Current target temperature in Celsius. Valid range: 10.0–35.0 inclusive. */
+    /**
+     * Current target temperature in Celsius. Valid range: 10.0–35.0 inclusive.
+     */
     private double temperature;
 
     public SmartThermostat(String deviceId, String name, boolean isOnline) {
@@ -22,17 +26,16 @@ public class SmartThermostat extends Device {
 
     /**
      * Sets the target temperature in Celsius.
-     *
+     * <p>
      * Valid range: 10.0–35.0 inclusive.
      */
     public void setTemperature(double temp) {
-        if (temp < 10.0 && temp > 35.0) {
-            System.out.println("Invalid temperature: " + temp + ". Must be between 10.0 and 35.0.");
-            return;
+        if (temp < 10.0 || temp > 35.0) {
+            throw new InvalidValueException("temperature", temp, "must be in range [10.0, 35.0]");
         }
         this.temperature = temp;
         System.out.println(getName() + " temperature set to " + temp + " °C");
-    }
+    } //Bug was AND gate instead od OR, if was always false because number cannot be in two different limits
 
     @Override
     public void executeCommand(String command) {
