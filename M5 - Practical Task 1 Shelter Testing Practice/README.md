@@ -6,6 +6,15 @@ A pre-built Java project for practising unit testing with JUnit 5 and AssertJ.
 
 The source code is already implemented. Your job is to **write the tests**.
 
+## Decisions about untested branches
+
+- AnimalType is uncovered but is a simple enum, so I would not write tests for it.
+- Animal has uncovered boilerplate branches I don't think their coverage would find
+any bugs.
+- Animal sorter has uncovered branches for some checks that verify null and return
+empty list, but I would not write tests for those because there is a identical branch
+in other method that is covered.
+
 ## How to start
 
 1. Open this folder in IntelliJ IDEA as a Maven project.
