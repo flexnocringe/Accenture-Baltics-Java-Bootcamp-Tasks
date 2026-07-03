@@ -6,6 +6,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
+@Data
 public class BookResponse {
     public Long id;
     public String title;
