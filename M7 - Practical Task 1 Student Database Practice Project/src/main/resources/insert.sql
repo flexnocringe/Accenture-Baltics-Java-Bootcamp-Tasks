@@ -11,6 +11,11 @@ DELETE FROM courses;
 -- course_name must be present.
 -- credits must be greater than 0.
 
+INSERT INTO courses (course_id, course_name, credits) VALUES
+(1, 'Computer Science', 4),
+(2, 'Mathematics', 3),
+(3, 'Physics', 4);
+
 -- TODO 2:
 -- Insert 5 students.
 -- Remember:
@@ -18,4 +23,11 @@ DELETE FROM courses;
 -- name must be present.
 -- email must be unique.
 -- age must be 18 or older.
--- course_id must exist in the courses table.
+-- course_id must exist in the courses table
+
+INSERT INTO students (id, name, email, age, course_id) VALUES
+(1, 'Alice Johnson', 'alice.johnson@gmail.com', 22, 1),
+(2, 'Bob Smith', 'bob.smith@hotmail.com', 19, 2),
+(3, 'Charlie Brown', 'snoopy.goodboi@gmail.com', 21, 1),
+(4, 'Diana Prince', 'princess.diana@yahoo.com', 20, 3),
+(5, 'Ethan Hunt', 'resident,evil@gmail.com', 23, 2);
