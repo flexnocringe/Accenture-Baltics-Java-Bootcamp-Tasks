@@ -1,6 +1,6 @@
 package com.accenture.springai_bootcamp_demo.config;
 
-import com.accenture.springai_bootcamp_demo.client.OpenRouterException;
+import com.accenture.springai_bootcamp_demo.client.AiChatException;
 import com.accenture.springai_bootcamp_demo.service.ChatNotFoundException;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
@@ -28,8 +28,8 @@ public class GlobalExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, detail);
     }
 
-    @ExceptionHandler(OpenRouterException.class)
-    public ProblemDetail handleOpenRouter(OpenRouterException ex) {
+    @ExceptionHandler(AiChatException.class)
+    public ProblemDetail handleAiChat(AiChatException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_GATEWAY, ex.getMessage());
     }
 }
