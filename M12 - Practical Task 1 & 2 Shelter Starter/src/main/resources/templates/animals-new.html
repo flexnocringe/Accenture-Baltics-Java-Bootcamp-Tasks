@@ -31,7 +31,7 @@
   ║     isAdmin is true.                                             ║
   ╚══════════════════════════════════════════════════════════════════╝
 -->
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,13 +68,13 @@
             add th:object="${form}" to <form>
             replace name="..." on each input with th:field="*{fieldName}"
     -->
-    <form action="/animals" method="post">
+    <form th:action="@{/animals}" th:object="${form}" method="post">
 
       <label for="name">Name</label>
-      <input id="name" name="name" type="text" required placeholder="e.g. Milo">
+      <input id="name" name="name" type="text" required placeholder="e.g. Milo" th:field="*{name}">
 
       <label for="type">Type</label>
-      <select id="type" name="type">
+      <select id="type" name="type" th:field="*{type}">
         <option value="">— choose —</option>
         <option value="CAT">Cat</option>
         <option value="DOG">Dog</option>
@@ -82,18 +82,18 @@
       </select>
 
       <label for="breed">Breed</label>
-      <input id="breed" name="breed" type="text" placeholder="e.g. Siamese">
+      <input id="breed" name="breed" type="text" placeholder="e.g. Siamese" th:field="*{breed}">
 
       <label for="age">Age (years)</label>
-      <input id="age" name="age" type="number" min="0" placeholder="e.g. 3">
+      <input id="age" name="age" type="number" min="0" placeholder="e.g. 3" th:field="*{age}">
 
       <label for="description">Description</label>
       <textarea id="description" name="description" rows="3"
-                placeholder="A short description of the animal's personality"></textarea>
+                placeholder="A short description of the animal's personality" th:field="*{description}"></textarea>
 
                   <label for="imageUrl">Image filename</label>
                   <input id="imageUrl" name="imageUrl" type="text"
-                    placeholder="luna.jpg">
+                    placeholder="Luna.jpeg" th:field="*{imageUrl}">
 
       <button type="submit">Add animal</button>
     </form>
