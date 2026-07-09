@@ -1,12 +1,26 @@
 package lv.bootcamp.shelter.service;
 
 import lv.bootcamp.shelter.client.NotificationClient;
+import lv.bootcamp.shelter.dto.AnimalCreateRequest;
+import lv.bootcamp.shelter.dto.AnimalResponse;
+import lv.bootcamp.shelter.model.Animal;
+import lv.bootcamp.shelter.model.AnimalStatus;
+import lv.bootcamp.shelter.model.AnimalType;
 import lv.bootcamp.shelter.repository.AnimalRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.Mockito.when;
 
 // TODO: add any imports you need as you write the tests
 
@@ -28,23 +42,25 @@ class AnimalServiceTest {
     @InjectMocks
     private AnimalService animalService;
 
+    @Captor
+    ArgumentCaptor<Animal> animalCaptor;
+
     @Test
     void create_shouldSaveAnimalWithAvailableStatus() {
-        // TODO:
-        // 1. Arrange: create an AnimalCreateRequest for a dog named "Rex"
-        //    Stub animalRepository.save() to return a saved Animal with id=1 and status=AVAILABLE
-        // 2. Act: call animalService.create(request)
-        // 3. Assert: response has id=1, name="Rex", status=AVAILABLE
-        // 4. Use ArgumentCaptor to capture the Animal passed to save()
-        //    and assert its status was set to AVAILABLE before saving
+        AnimalCreateRequest request = new AnimalCreateRequest("Rex", AnimalType.DOG, "Husky", 4, "Good boy");
+        Animal animal = new Animal(1L, "Rex", AnimalType.DOG, "Husky", 4, "Good boy", AnimalStatus.AVAILABLE);
+        when(animalRepository.save(animalCaptor.capture())).thenReturn(animal);
+        AnimalResponse response = animalService.create(request);
+        assertThat(response.id()).isEqualTo(1L);
+        assertThat(response.name()).isEqualTo("Rex");
+        assertThat(response.status()).isEqualTo(AnimalStatus.AVAILABLE);
+        assertThat(animalCaptor.getValue().getStatus()).isEqualTo(AnimalStatus.AVAILABLE);
     }
 
     @Test
     void findById_shouldThrowWhenAnimalNotFound() {
-        // TODO:
-        // 1. Arrange: stub animalRepository.findById(99L) to return Optional.empty()
-        // 2. Act & Assert: calling animalService.findById(99L) should throw
-        //    AnimalNotFoundException with the id in the message
+        when(animalRepository.findById(99L)).thenReturn(Optional.empty());
+        assertThrows(AnimalNotFoundException.class, () -> animalService.findById(99L), contains("id"));
     }
 
     @Test
@@ -56,6 +72,7 @@ class AnimalServiceTest {
         // 3. Assert: response status is ADOPTED
         // 4. Verify: notificationClient.sendAdoptionNotification() was called
         //    with the correct animalId, name, and email
+
     }
 
     @Test
